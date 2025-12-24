@@ -30,12 +30,26 @@ Image::Image(const Image& other){
     width = other.width;
     height = other.height;
 
-    
+    /*we are creating new object instead of copying one to another. 
+    So we do not need to use delete before the allocate memmory*/
+
+    pixels = new unsigned char*[width];
+    for(unsigned short i = 0; i<width; i++){    //allocate memmory
+        pixels[i] = new unsigned char[height];
+    }
+
+    for(unsigned short i = 0; i<width; i++){
+        for(unsigned short j = 0; j<height; j++){   //copy elements one by one.
+            pixels[i][j] = other.pixels[i][j];
+        }
+    }
 
 }
 
 Image& Image::operator=(const Image& other){
 
-
+    if(this == &other){
+        return *this;       //if these are same return it's address
+    }
 
 }
