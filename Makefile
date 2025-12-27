@@ -1,14 +1,17 @@
+output: main.o Compressor.o Image.o Menu.o
+	g++ main.o Compressor.o Image.o Menu.o -o output
 
-CXX = g++
-CXXFLAGS = -Wall -std=c++11 -Iinclude 
+main.o: main.cpp
+	g++ -c main.cpp
 
-TARGET = Compressor
-SRCS = src/main.cpp src/Image.cpp src/Compressor.cpp src/Menu.cpp
+Compressor.o: Compressor.cpp Compressor.h
+	g++ -c Compressor.cpp
 
-all: $(TARGET)
+Image.o: Image.cpp Image.h
+	g++ -c Image.cpp
 
-$(TARGET): $(SRCS)
-	$(CXX) $(CXXFLAGS) $(SRCS) -o $(TARGET)
+Menu.o: Menu.cpp Menu.h
+	g++ -c Menu.cpp
 
 clean:
-	rm -f $(TARGET)
+	rm *.o output
