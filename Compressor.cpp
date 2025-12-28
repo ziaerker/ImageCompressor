@@ -76,7 +76,7 @@ Image DecompressRLE(const std::string& fileName){
     while(file>>count>>value){
 
         for(unsigned int i = 0; i<count; i++){
-            img.setPixel(currentRowCursor, currentColCursor, (unsigned char)value);
+            img.setPixel(currentColCursor, currentRowCursor, (unsigned char)value);
 
             currentColCursor++;
 
