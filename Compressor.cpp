@@ -36,7 +36,11 @@ void CompressRLE(Image& img, const std::string& fileName){
                 counter++;
             }
             else{
+                
                 file<<" "<<counter<<" "<<(int)pixel<<" ";
+                pixel = nextPixel;
+                counter = 1;
+
                 pixel = nextPixel;
                 counter = 1;
             }
@@ -94,5 +98,116 @@ Image DecompressRLE(const std::string& fileName){
 
 
 //DO THIS LAST!!!!!!!!
-void CompressHuffman();      
-Image DecompressHuffman();
+void CompressMyAlg(Image& img, const std::string& fileName){
+
+    std::ofstream file(fileName, std::ios::binary);
+
+    if(!file.is_open()){                                //STANDART PROCEDURES
+        std::cerr<<"File could not be opened"<<std::endl;
+        return;
+    }
+
+    unsigned int w = img.getWidth();
+    unsigned int h = img.getHeight();
+
+    file.write((char*)&w, sizeof(unsigned int));
+    file.write((char*)&h, sizeof(unsigned int));
+
+    unsigned int maxCapacity = w*h; //THIS ALGORITHM MIGHT BE USE MORE THAN THE OTHER ALGORITHMS. TO PREVENT THE CRASHES I AM ALLOCATING A LOT OF MEMORY
+
+    unsigned char* suffixes = new unsigned char[maxCapacity];
+
+    unsigned char initialPixel = img.getPixel(0,0);
+    unsigned char activeDomain = initialPixel / 10;//needed just to get started
+
+    unsigned int size = 0;
+    for(unsigned int i = 0; i<h; i++){
+        for(unsigned int j = 0; j<w; j++){
+
+            unsigned char domain = img.getPixel(i,j) / 10;
+            unsigned char suffix = img.getPixel(i,j) % 10;
+
+            if(domain == activeDomain){//this means we have same prefixes note for myself: explain clearly whats prefix used for!!! 
+                suffixes[size] = suffix;
+                size++;
+            }
+            else{
+
+                file.write((char*)&activeDomain, sizeof(unsigned char));
+                file.write((char*)&size, sizeof(unsigned int));
+                for(unsigned int k = 0; k<size; k++){
+                    file.write((char*)&suffixes[k], sizeof(unsigned char));
+                }
+
+                activeDomain = domain;
+                size = 0;
+
+                suffixes[size] = suffix;
+                size++;
+                
+
+            }
+        }
+    }
+
+    file.write((char*)&activeDomain, sizeof(unsigned char));
+    file.write((char*)&size, sizeof(unsigned int));
+    for(unsigned int i = 0; i<size; i++){
+        file.write((char*)&suffixes[i], sizeof(unsigned char));
+    }
+    delete[] suffixes;
+    file.close();
+
+
+}      
+Image DecompressMyAlg(const std::string& fileName){
+
+    Image img;
+
+    std::ifstream file(fileName, std::ios::binary);
+
+    if(!file.is_open()){
+        std::cerr<<"File could not opened."<<std::endl;
+        return img;
+    }
+
+    unsigned int w, h;
+
+    file.read((char*)&w, sizeof(unsigned int));
+    file.read((char*)&h, sizeof(unsigned int));
+
+    img.setSize(w,h);
+
+    unsigned char activeDomain;
+    unsigned int size;
+    unsigned char suffix;
+
+    unsigned int row = 0;       //to put the values exact coordinates
+    unsigned int col = 0;
+
+    while(file.read((char*)&activeDomain, sizeof(unsigned char))){   //this expression returns a bool so while this argument returns true than keep going if its not then return false
+
+        file.read((char*)&size, sizeof(unsigned int));
+
+        for(unsigned int i = 0; i<size; i++){
+
+            file.read((char*)&suffix, sizeof(unsigned char));
+
+            unsigned int pixelValue = (activeDomain * 10) + suffix;
+
+            img.setPixel(col, row, (unsigned char)pixelValue);
+            col++;
+
+            if(col == w){
+                col = 0;
+                row++;
+            }
+
+        }
+
+    }
+    file.close();
+    std::cout<<"Decompression Completed"<<std::endl;
+    return img;
+
+}

@@ -8,8 +8,8 @@ Image DecompressRLE(const std::string& fileName);
 
 
 //DO THIS LAST!!!!!!!!
-void CompressHuffman();      
-Image DecompressHuffman();
+void CompressMyAlg(Image& img, const std::string& fileName);      
+Image DecompressMyAlg(const std::string& fileName);
 
 
 #endif
