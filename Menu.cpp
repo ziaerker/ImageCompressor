@@ -10,7 +10,7 @@ void Menu(){
     std::string choice = "";
     std::cout<<"Image Compressor!"<<std::endl;
     std::cout<<"1) Compress a PGM with RLE Method or My Compression Algorithm"<<std::endl;
-    std::cout<<"2) Decompress a .zee file to .PGM"<<std::endl;
+    std::cout<<"2) Decompress a .zee or .Zia file to .PGM"<<std::endl;
     std::cout<<"You have to write exactly Compress to compress a file and Decompress to decompress a file"<<std::endl;
     std::cin>>choice;
 
