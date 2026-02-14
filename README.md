@@ -1,3 +1,8 @@
+This project compress the pgm images and decompress with RLE algorithm and Zia algorithm which is not efficent not clever idea just wanted to try something did not think that much on that.
+
+
+
+
 //If you want to make the comments more understandable review the code in this order:
 Image.h > Image.cpp > Compressor.h > Compressor.cpp >  Menu.h > Menu.cpp > main.cpp
 
