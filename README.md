@@ -1,4 +1,4 @@
-This project compress the pgm images and decompress with RLE algorithm and Zia algorithm which is not efficent not clever idea just wanted to try something did not think that much on that.
+This project compress the pgm images and decompress with RLE algorithm and Zia algorithm which is not efficent, not clever idea. Just wanted to try something, did not think on that. But I believe I made a great implementation on RLE algorithm. I learned so much information and got experiences from researches that i did while doing this project.
 
 
 
